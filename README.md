@@ -15,6 +15,6 @@ Instruction:
 
 4. clone repository to production path (example : cd /var/www && git clone https://github.com/putrajr/GIT-Auto-Deploy.git)
 
-5. This repositories need phpseclib repositories (https://github.com/phpseclib/phpseclib)
+5. This repositories need phpseclib repositories (https://github.com/phpseclib/phpseclib) and git installed on your server.
 
 Tips: for secure access you can rename web-hook.php what ever you want like web-hook-whatever.php (example web-hook-vdgs64sjakdg96fd.php )
