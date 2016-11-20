@@ -5,9 +5,9 @@ This repositories can cover all git vendor like bicbucket, github and other.
 
 Instruction: 
 
-1. Login with root user, create new ssh key with command "cd /root/.ssh && ssh-keygen -t rsa" (not need for public repositories) 
+1. Login with root user, create new ssh key with command "cd /root/.ssh && ssh-keygen -t rsa" and leave password blank (not needed when public repositories) 
 
-2. Copy ssh key for private repositories to git vendor (User Menu -> settings -> SSH at bicbuket or Github) (not need for public repositories) 
+2. Copy ssh key (id_rsa.pub) to git vendor (User Menu -> settings -> SSH at bicbuket or Github) (not needed when public repositories) 
 
 3. Go to repositories settings and add webhooks (Repository Menu -> settings -> Webhooks), add payload/url of web-hook.php from your server (example: yourdomain.com/git-auto-deploy/web-hook.php), select trigers when "Repository push/just the push event". 
 
