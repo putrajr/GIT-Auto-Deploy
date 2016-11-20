@@ -1,19 +1,49 @@
 <?php
-set_include_path('/path/to/phpseclib-1.0.5/phpseclib/');
+/*
+type_auth:
+1. password
+2. rsa without password
+3. rsa with password
+*/
+
+$project_dir = "";
+
+$repository_url_ssh = "";
+$repository_name = "";
+
+$root_user = "root";
+$rsa_file_path="";
+$root_or_rsa_password = "";
+
+$ip_server= "";
+$port_ssh_server = "22";
+
+$type_auth =1;
+
+$server_seperator="/";
+
+set_include_path(__DIR__.'phpseclib-1.0.5/phpseclib/');
 
 include('phpseclib-1.0.5/phpseclib/Net/SSH2.php');
-//for using ssh/rsakey with/without password tutorial can see at:
-//1. ssh/rsa without password : http://phpseclib.sourceforge.net/ssh/auth.html#rsakey
-//2. ssh/rsa with password : http://phpseclib.sourceforge.net/ssh/auth.html#encrsakey
-//include('phpseclib-1.0.5/phpseclib/Crypt/RSA.php');
 
-//$ssh = new Net_SSH2('ip','port');
-$ssh = new Net_SSH2('xxx.xxx.xxx.xxx','22');
-//if (!$ssh->login('user root', 'password user root')) {
-if (!$ssh->login('root', 'xxxxxxx')) {
-    exit('Login Failed');
+$ssh = new Net_SSH2($ip_server,$port_ssh_server);
+if($type_auth>1){
+	include('phpseclib-1.0.5/phpseclib/Crypt/RSA.php');
+	$key = new Crypt_RSA();
+	if($type_auth>2){
+		$key->setPassword($root_or_rsa_password);
+	}
+	$key->loadKey(file_get_contents($rsa_file_path));
+}else{
+	$key=$root_or_rsa_password;
 }
-//$res = $ssh->exec('cd /var/www/my-repositories && git pull');
-$res = $ssh->exec('cd /path/to/repositories/cloned && git pull');
+if (!$ssh->login($root_user, $key)) {
+	exit('Login Failed');
+}
+if(is_dir($project_dir.$server_seperator.$repository_name)){
+	$res = $ssh->exec('cd '.$project_dir.$server_seperator.$repository_name.' && git pull');
+}else{
+	$res = $ssh->exec('cd '.$project_dir.' && git clone '.$repository_url_ssh);
+}
 echo $res;
 ?>
