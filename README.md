@@ -1,7 +1,7 @@
 # GIT-Auto-Deploy
 GIT Auto deploy auto pull server production to git repositories when you push new update or repositories change.
 
-this repositories can cover all git vendor like bicbucket, github and other. 
+This repositories can cover all git vendor like bicbucket, github and other. 
 
 Instruction: 
 
