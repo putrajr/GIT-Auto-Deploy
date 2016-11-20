@@ -13,6 +13,8 @@ Instruction:
 
 3. Go to repositories settings and add webhooks (Repository Menu -> settings -> Webhooks), add payload/url of web-hook.php from your server (example: yourdomain.com/git-auto-deploy/web-hook.php), select trigers when "Repository push/just the push event". 
 
-4. This repositories need phpseclib repositories (https://github.com/phpseclib/phpseclib)
+4. clone repository to production path (example : cd /var/www && git clone https://github.com/putrajr/GIT-Auto-Deploy.git)
+
+5. This repositories need phpseclib repositories (https://github.com/phpseclib/phpseclib)
 
 Tips: for secure access you can rename web-hook.php what ever you want like web-hook-whatever.php (example web-hook-vdgs64sjakdg96fd.php )
