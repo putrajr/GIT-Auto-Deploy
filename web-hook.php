@@ -18,13 +18,13 @@ $type_auth =1;							/* type_auth:
 										2. rsa without password
 										3. rsa with password */
 
-set_include_path(__DIR__.'phpseclib-1.0.5/phpseclib/');
+set_include_path(__DIR__.'/phpseclib-1.0.5/phpseclib/');
 
-include('phpseclib-1.0.5/phpseclib/Net/SSH2.php');
+include('Net/SSH2.php');
 
 $ssh = new Net_SSH2($ip_server,$port_ssh_server);
 if($type_auth>1){
-	include('phpseclib-1.0.5/phpseclib/Crypt/RSA.php');
+	include('Crypt/RSA.php');
 	$key = new Crypt_RSA();
 	if($type_auth>2){
 		$key->setPassword($root_or_rsa_password);
@@ -44,7 +44,11 @@ if($server_seperator=="/"){
 if(is_dir($project_dir.$server_seperator.$repository_name)){
 	$res = $ssh->exec($cmd.$project_dir.$server_seperator.$repository_name.' && git pull');
 }else{
-	$res = $ssh->exec($cmd.$project_dir.' && git clone -b '.$branch.' '.$repository_username_url_ssh.'/'.$repository_name);
+	$gitExt="";
+	if(substr( $repository_username_url_ssh, 0, 3 ) === "git"){
+		$gitExt=".git";
+	}
+	$res = $ssh->exec($cmd.$project_dir.' && git clone --branch '.$branches.' '.$repository_username_url_ssh.'/'.$repository_name.$gitExt);
 }
 echo $res;
 ?>
