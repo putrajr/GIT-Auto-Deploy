@@ -1,26 +1,22 @@
 <?php
-/*
-type_auth:
-1. password
-2. rsa without password
-3. rsa with password
-*/
+$project_dir = "";				// "/var/www/html/deploy"
+$server_seperator="/";			// "/" in linux and unix, "\\" in windows
 
-$project_dir = "";
+$repository_url_ssh = "";		// "https://bitbucket.org/putrajr"
+$repository_name = "";			// "git-auto-deploy"
+$branches = "";					// "master"
 
-$repository_url_ssh = "";
-$repository_name = "";
+$root_user = "";				// "root"
+$rsa_file_path="";				// "/root/server/ssh/xyz.file"
+$root_or_rsa_password = "";		// "123456"
 
-$root_user = "root";
-$rsa_file_path="";
-$root_or_rsa_password = "";
+$ip_server= "";					// "192.168.1.6"
+$port_ssh_server = "22";		// default port ssh is "22"
 
-$ip_server= "";
-$port_ssh_server = "22";
-
-$type_auth =1;
-
-$server_seperator="/";
+$type_auth =1;					/* type_auth:
+								1. password
+								2. rsa without password
+								3. rsa with password */
 
 set_include_path(__DIR__.'phpseclib-1.0.5/phpseclib/');
 
@@ -40,10 +36,15 @@ if($type_auth>1){
 if (!$ssh->login($root_user, $key)) {
 	exit('Login Failed');
 }
-if(is_dir($project_dir.$server_seperator.$repository_name)){
-	$res = $ssh->exec('cd '.$project_dir.$server_seperator.$repository_name.' && git pull');
+if($server_seperator=="/"){
+	$cmd="cd ";
 }else{
-	$res = $ssh->exec('cd '.$project_dir.' && git clone '.$repository_url_ssh);
+	$cmd="cd \D ";
+}
+if(is_dir($project_dir.$server_seperator.$repository_name)){
+	$res = $ssh->exec($cmd.$project_dir.$server_seperator.$repository_name.' && git pull');
+}else{
+	$res = $ssh->exec($cmd.$project_dir.' && git clone -b '.$branch.' '.$repository_url_ssh.'/'.$repository_name);
 }
 echo $res;
 ?>
